@@ -1,0 +1,46 @@
+void coupsPredefinis(Jeu* a, JeuDame d, int tour, std::vector<Piece*> joueur_courant, std::vector<Piece*> joueur_adverse, std::vector<std::pair<std::pair<int,int>,std::vector<int>>> vectorCoups){
+  int x = vectorCoups.at(tour).first.first;
+  int y = vectorCoups.at(tour).first.second;
+  std::vector<std::pair<int,int>> peut_se_deplacer;
+
+  std::vector<int> select = vectorCoups.at(tour).second.at(3);
+  Piece* choix;
+  std::vector<std::pair<Piece*,int>> peut_manger;
+  choix->getPiece(joueur_courant,x,y);
+  choix->setCoord(peut_se_deplacer.at(select).first,peut_se_deplacer.at(select).second);
+  peut_manger = Piece::prisePossible(joueur_courant,joueur_adverse,taille);
+
+
+}
+
+
+
+//Transformer un fichier de coups en vector de double entier
+std::vector<std::pair<std::pair<int,int>,std::vector<int>>> fichierVector(Jeu* a, JeuDame d, int tour, std::string nomf){
+  std::ifstream fichier;
+  fichier.open(nomf);
+  std::vector<std::pair<std::pair<int,int>,std::vector<int>>> res;
+  std::pair<int,int> resPair;
+  std::vector<int> choix;//liste de choix
+  std::pair<std::pair<int,int>,std::vector<int>> pair;
+  std::string ligne;
+  std::string jeu;
+  int numLigne = 0;
+  if(fichier.is_open()){
+    while(getline(fichier,ligne)){
+      resPair.first = ligne[0];
+      resPair.second = ligne[1];
+      for(int i=2; i<ligne.size();i++){
+        choix.push_back(ligne[i]);
+      }
+      pair.first = resPair;
+      pair.second = choix;
+      res.push_back(pair);
+    }
+  }
+  else{
+    std::cout<<"Impossible d'ouvrir le fichier"<<std::endl;
+  }
+  fichier.close();
+  return res;
+}
